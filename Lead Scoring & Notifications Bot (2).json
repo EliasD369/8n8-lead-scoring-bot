@@ -1,0 +1,614 @@
+{
+  "name": "Lead Scoring & Notifications Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-scoring",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1700,
+        -840
+      ],
+      "id": "e449e4e9-7e1d-4aa0-9d5c-de6824f02726",
+      "name": "Webhook",
+      "webhookId": "4d6b8d56-5017-412e-b0cf-e5d01c04d107"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "applROG7b3VgyJd2y",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblJ5ypaej2qt4PlB",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Contacted": false,
+            "Full Name": "{{$json[\"full_name\"]}}",
+            "Email": "{{$json[\"email\"]}}",
+            "Phone": "{{$json[\"phone\"]}}",
+            "Company Size": "{{$json[\"company_size\"]}}",
+            "Budget": "={{$json[\"budget\"]}}",
+            "Interest Level": "={{$json[\"interest_level\"]}}",
+            "Score": "={{$json[\"score\"]}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Full Name",
+              "displayName": "Full Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company Size",
+              "displayName": "Company Size",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Interest Level",
+              "displayName": "Interest Level",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "Low"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "High",
+                  "value": "High"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Score",
+              "displayName": "Score",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Cold",
+                  "value": "Cold"
+                },
+                {
+                  "name": "Warm",
+                  "value": "Warm"
+                },
+                {
+                  "name": "Hot",
+                  "value": "Hot"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contacted",
+              "displayName": "Contacted",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Lead Quality",
+              "displayName": "Lead Quality",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Potential Revenue",
+              "displayName": "Potential Revenue",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Company Size Category",
+              "displayName": "Company Size Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": false
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        -1220,
+        -600
+      ],
+      "id": "089e0769-8f63-4b50-bf88-bad828b75f00",
+      "name": "Store in Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "31lrsxxzr5ihBaRr",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C094D2TLK50",
+          "mode": "list",
+          "cachedResultName": "sales"
+        },
+        "text": "=New Hot Lead: {{$json[\"full_name\"]}}, Budget £{{$json[\"budget\"]}}, Interest: {{$json[\"interest_level\"]}} – Check Airtable for details.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -820,
+        -620
+      ],
+      "id": "fd3a4b1a-201f-452b-8b75-045e5d627cfd",
+      "name": "Notify Sales Slack",
+      "webhookId": "0464ff5f-ea91-4605-a4d0-fdbe1a4e65cb",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "jF1wM44BTfq91daa",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9a74a5a9-8d7f-4d9c-a714-a812520efd23",
+              "leftValue": "={{$json[\"full_name\"]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "1553c739-0d01-4fd3-9119-9eec9198bbff",
+              "leftValue": "={{$json[\"email\"]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "3baf8556-18b7-49ab-add4-c1951d4500bc",
+              "leftValue": "={{$json[\"interest_level\"]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "806e59ed-8259-4fff-8c9b-1b9ade9b3ef0",
+              "leftValue": "={{$json[\"budget\"]}}",
+              "rightValue": "={{ 0 }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1660,
+        -580
+      ],
+      "id": "a0c41d94-fd12-4bdc-bcef-c1c57900d2b2",
+      "name": "Validate Required Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Retrieve the incoming lead\nconst lead = items[0].json;\n\n// 2. Preserve original interest_level casing\nconst originalInterest = lead.interest_level || '';\n\n// 3. Normalize for logic\nconst interest = originalInterest.toLowerCase();\nconst budget = parseFloat(lead.budget || 0);\n\n// 4. Default to Cold\nlet score = 'Cold';\n\n// 5. Apply your custom thresholds\nif (budget > 5000 && interest === 'high') {\n  score = 'Hot';\n} else if (budget > 1000 && (interest === 'medium' || interest === 'high')) {\n  score = 'Warm';\n}\n\n// 6. Return the enriched item\nreturn [\n  {\n    json: {\n      ...lead,\n      interest_level: originalInterest,\n      score,\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        -600
+      ],
+      "id": "185bbca2-2743-4403-8c04-e6f307f34ccf",
+      "name": "Score Lead"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://eliasdamtew369.app.n8n.cloud/webhook/lead-scoring",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -640,
+        -620
+      ],
+      "id": "17db0ac9-67d3-4ada-a54f-a879b03ddd3f",
+      "name": "Simulate Form"
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -460,
+        -620
+      ],
+      "id": "f641f3d4-ee2b-47c1-b02d-7fff5e7913af",
+      "name": "2 Minute Delay",
+      "webhookId": "3be0775e-1804-405c-9271-eff9eca74277"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C094D2G4XH8",
+          "mode": "list",
+          "cachedResultName": "all-kiletu-ai-solutions"
+        },
+        "text": "= Follow-up on lead: {{$json[\"full_name\"]}} (Budget £{{$json[\"budget\"]}}). Any questions?",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -240,
+        -620
+      ],
+      "id": "c32ec80c-97a8-44b4-abd3-143c57e28957",
+      "name": "Follow-Up Slack",
+      "webhookId": "93475bfa-2ab7-4348-ad77-5f2108d03157",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "jF1wM44BTfq91daa",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e62cd14-6d90-4430-9706-9657c3c7b730",
+              "name": "full_name",
+              "value": "{{$json[\"body\"][\"full_name\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e69f012b-2786-417e-bf71-7374c3e2a50b",
+              "name": "email",
+              "value": "={{$json[\"body\"][\"email\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "805de37c-aed9-4284-a904-e630565400fe",
+              "name": "budget",
+              "value": "={{$json[\"body\"][\"budget\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "074342e8-3680-435f-ba16-b51d583038cf",
+              "name": "interest_level",
+              "value": "={{$json[\"body\"][\"interest_level\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1420,
+        -840
+      ],
+      "id": "858f9567-2bee-4e0c-88bc-49e7fd897e2a",
+      "name": "Extract Payload"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "27575d97-acca-4af0-aa6b-56b011feb890",
+              "leftValue": "={{ $json[\"score\"] }}",
+              "rightValue": "={{ $json[\"Hot\"] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1040,
+        -600
+      ],
+      "id": "6d5dbaee-fa48-4237-a169-3beaf3ce5a5f",
+      "name": "Check Hot Lead"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "eliasdamtew369.app.n8n.cloud",
+            "user-agent": "curl/7.55.1",
+            "content-length": "136",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "196.189.120.152",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "ET",
+            "cf-ray": "95a0bcf11531f7f3-ADD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "196.189.120.152, 104.23.208.163",
+            "x-forwarded-host": "eliasdamtew369.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-54-58b646fcb5-rrb5r",
+            "x-is-trusted": "yes",
+            "x-real-ip": "196.189.120.152"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "full_name": "Test Expert",
+            "email": "expert@remwaste.com",
+            "phone": "000-0000",
+            "company_size": "10",
+            "budget": "7000",
+            "interest_level": "High"
+          },
+          "webhookUrl": "https://eliasdamtew369.app.n8n.cloud/webhook/lead-scoring",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Extract Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store in Airtable": {
+      "main": [
+        [
+          {
+            "node": "Check Hot Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Required Fields": {
+      "main": [
+        [
+          {
+            "node": "Score Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Lead": {
+      "main": [
+        [
+          {
+            "node": "Store in Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Sales Slack": {
+      "main": [
+        [
+          {
+            "node": "Simulate Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate Form": {
+      "main": [
+        [
+          {
+            "node": "2 Minute Delay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 Minute Delay": {
+      "main": [
+        [
+          {
+            "node": "Follow-Up Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Payload": {
+      "main": [
+        [
+          {
+            "node": "Validate Required Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Hot Lead": {
+      "main": [
+        [
+          {
+            "node": "Notify Sales Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "be980c30-4567-467e-95f6-f51cc5a2d80d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5b68f004dfcea7ccecab6ff9cefbc4f27356b46a916fcad0e2f48498f720ee45"
+  },
+  "id": "zfgBfssbE7TgEHpM",
+  "tags": []
+}
